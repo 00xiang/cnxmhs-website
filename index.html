@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>厦门鸿识科技有限公司 | Xiamen Hongshi Technology Co., LTD</title>
+<meta name="description" content="厦门鸿识科技有限公司 - 专注于物联网技术与建筑行业数字化转型的创新型科技企业。Xiamen Hongshi Technology - IoT & Smart Construction Solutions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --coal: #0c0f14;
+    --slate: #161a22;
+    --iron: #1e2330;
+    --steel: #2a3040;
+    --smoke: #8892a4;
+    --cloud: #c8cdd8;
+    --white: #f0f2f5;
+    --ember: #e8520e;
+    --ember-glow: #ff6b2c;
+    --amber: #f59e0b;
+    --sky: #38bdf8;
+    --font-display: 'Outfit', sans-serif;
+    --font-body: 'Noto Sans SC', 'Outfit', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--cloud);
+    line-height: 1.75;
+    background: var(--coal);
+    overflow-x: hidden;
+  }
+
+  /* ===== NOISE OVERLAY ===== */
+  body::after {
+    content: "";
+    position: fixed; inset: 0; z-index: 9999;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--coal); }
+  ::-webkit-scrollbar-thumb { background: var(--steel); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ember); }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideRight {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+  @keyframes gridDraw {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(12, 15, 20, 0.85);
+    backdrop-filter: blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+    transition: background 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(12, 15, 20, 0.95);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; color: var(--white);
+  }
+  .nav-brand img {
+    height: 42px; width: 42px; object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(232, 82, 14, 0.2);
+  }
+  .nav-brand-text {
+    display: flex; flex-direction: column;
+  }
+  .nav-brand-text .zh {
+    font-family: var(--font-body);
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+  }
+  .nav-brand-text .en {
+    font-family: var(--font-display);
+    font-size: 0.6rem; font-weight: 400;
+    color: var(--smoke);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .nav-links { display: flex; gap: 0; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--smoke);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .nav-links a:hover {
+    color: var(--white);
+    background: rgba(255,255,255,0.05);
+  }
+  .nav-links a::after {
+    content: "";
+    position: absolute; bottom: 2px; left: 50%; right: 50%;
+    height: 2px;
+    background: var(--ember);
+    border-radius: 1px;
+    transition: all 0.3s;
+  }
+  .nav-links a:hover::after {
+    left: 1.2rem; right: 1.2rem;
+  }
+
+  .nav-toggle {
+    display: none; background: none; border: none;
+    color: var(--white); font-size: 1.4rem; cursor: pointer;
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  .nav-toggle:hover { background: rgba(255,255,255,0.08); }
+
+  /* ===== HERO ===== */
+  .hero {
+    margin-top: 72px;
+    min-height: calc(100vh - 72px);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--coal);
+  }
+
+  /* Grid background */
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 100%);
+  }
+
+  /* Gradient orbs */
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+  }
+  .hero-orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--ember) 0%, transparent 70%);
+    top: -10%; right: -5%;
+    animation: float 12s ease-in-out infinite;
+  }
+  .hero-orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, var(--sky) 0%, transparent 70%);
+    bottom: -15%; left: -8%;
+    animation: float 15s ease-in-out infinite reverse;
+    opacity: 0.2;
+  }
+  .hero-orb-3 {
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, var(--amber) 0%, transparent 70%);
+    top: 30%; left: 15%;
+    animation: float 10s ease-in-out infinite 2s;
+    opacity: 0.15;
+  }
+
+  /* Geometric decorations */
+  .hero-geo {
+    position: absolute;
+    border: 1px solid rgba(232, 82, 14, 0.15);
+    border-radius: 4px;
+  }
+  .hero-geo-1 {
+    width: 120px; height: 120px;
+    top: 15%; right: 12%;
+    transform: rotate(45deg);
+    animation: float 8s ease-in-out infinite;
+  }
+  .hero-geo-2 {
+    width: 80px; height: 80px;
+    bottom: 20%; left: 8%;
+    transform: rotate(15deg);
+    animation: float 10s ease-in-out infinite 1s;
+    border-color: rgba(56, 189, 248, 0.12);
+  }
+  .hero-geo-3 {
+    width: 50px; height: 50px;
+    top: 40%; right: 25%;
+    transform: rotate(60deg);
+    animation: float 7s ease-in-out infinite 3s;
+    border-color: rgba(245, 158, 11, 0.1);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 900px;
+    padding: 4rem 3rem;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 18px;
+    border: 1px solid rgba(232, 82, 14, 0.3);
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--ember-glow);
+    margin-bottom: 2.5rem;
+    animation: fadeIn 1s ease 0.2s both;
+  }
+  .hero-badge::before {
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--ember);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 8px var(--ember);
+  }
+
+  .hero h1 {
+    font-family: var(--font-body);
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+    animation: fadeUp 1s ease 0.4s both;
+  }
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, var(--ember) 0%, var(--amber) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero .subtitle {
+    font-size: 1.15rem;
+    color: var(--smoke);
+    margin-bottom: 0.6rem;
+    font-weight: 300;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+  .hero .subtitle-en {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: rgba(136, 146, 164, 0.7);
+    font-weight: 300;
+    font-style: italic;
+    animation: fadeUp 1s ease 0.8s both;
+  }
+
+  .hero-line {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--ember), var(--amber));
+    border-radius: 2px;
+    margin: 2rem auto 0;
+    animation: slideRight 1s ease 1s both;
+    transform-origin: left;
+  }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--smoke);
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: fadeIn 1s ease 1.5s both;
+  }
+  .scroll-hint .line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--ember), transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* ===== SECTIONS ===== */
+  section { padding: 7rem 3rem; position: relative; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-header {
+    margin-bottom: 4rem;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: "";
+    width: 30px; height: 2px;
+    background: var(--ember);
+    border-radius: 1px;
+  }
+  .section-title {
+    font-family: var(--font-body);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+  }
+  .section-title-en {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    color: var(--smoke);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== ABOUT ===== */
+  #about {
+    background: var(--slate);
+    position: relative;
+  }
+  #about::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,82,14,0.3), transparent);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--cloud);
+    margin-bottom: 1.5rem;
+  }
+  .about-text-en {
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    color: var(--smoke);
+    line-height: 1.9;
+  }
+
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    padding-top: 1rem;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 1.8rem;
+    text-align: center;
+    transition: all 0.4s;
+  }
+  .stat-card:hover {
+    border-color: rgba(232, 82, 14, 0.3);
+    background: rgba(232, 82, 14, 0.03);
+    transform: translateY(-4px);
+  }
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--ember) 0%, var(--amber) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--smoke);
+    letter-spacing: 0.03em;
+  }
+  .stat-label-en {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    color: rgba(136,146,164,0.6);
+    margin-top: 0.2rem;
+  }
+
+  /* ===== PRODUCTS ===== */
+  #products {
+    background: var(--coal);
+    position: relative;
+  }
+  #products::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .product-card {
+    background: var(--slate);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .product-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+    transition: opacity 0.4s;
+  }
+  .product-card:nth-child(1)::before {
+    background: linear-gradient(90deg, var(--sky), #818cf8);
+  }
+  .product-card:nth-child(2)::before {
+    background: linear-gradient(90deg, var(--ember), var(--amber));
+  }
+  .product-card::after {
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .product-card:nth-child(1)::after {
+    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.04), transparent 60%);
+  }
+  .product-card:nth-child(2)::after {
+    background: radial-gradient(circle at top left, rgba(232, 82, 14, 0.04), transparent 60%);
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .product-card:hover::after { opacity: 1; }
+
+  .product-icon-wrap {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .product-icon-wrap svg {
+    width: 28px; height: 28px;
+  }
+  .icon-app-wrap {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
+    border: 1px solid rgba(56, 189, 248, 0.2);
+  }
+  .icon-app-wrap svg { stroke: var(--sky); fill: none; stroke-width: 1.5; }
+  .icon-pda-wrap {
+    background: linear-gradient(135deg, rgba(232, 82, 14, 0.15), rgba(245, 158, 11, 0.15));
+    border: 1px solid rgba(232, 82, 14, 0.2);
+  }
+  .icon-pda-wrap svg { stroke: var(--ember-glow); fill: none; stroke-width: 1.5; }
+
+  .product-card h3 {
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+    position: relative; z-index: 1;
+  }
+  .product-card .product-name-en {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--smoke);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.2rem;
+    position: relative; z-index: 1;
+  }
+  .product-card p {
+    font-size: 0.9rem;
+    color: var(--cloud);
+    line-height: 1.8;
+    position: relative; z-index: 1;
+  }
+  .product-card .desc-en {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    color: var(--smoke);
+    margin-top: 1rem;
+    line-height: 1.7;
+  }
+
+  /* ===== ADVANTAGES ===== */
+  #advantages {
+    background: var(--slate);
+    position: relative;
+  }
+  #advantages::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,82,14,0.3), transparent);
+  }
+
+  .adv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .adv-card {
+    padding: 2rem;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .adv-card::before {
+    content: "";
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 0;
+    background: linear-gradient(to bottom, var(--ember), var(--amber));
+    border-radius: 0 2px 2px 0;
+    transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .adv-card:hover::before { height: 100%; }
+  .adv-card:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+    transform: translateX(4px);
+  }
+
+  .adv-icon-wrap {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+  }
+  .adv-icon-1 { background: rgba(56, 189, 248, 0.1); }
+  .adv-icon-2 { background: rgba(52, 211, 153, 0.1); }
+  .adv-icon-3 { background: rgba(232, 82, 14, 0.1); }
+  .adv-icon-4 { background: rgba(245, 158, 11, 0.1); }
+
+  .adv-card h4 {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .adv-card p {
+    font-size: 0.85rem;
+    color: var(--smoke);
+    line-height: 1.7;
+  }
+  .adv-card .adv-en {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    color: rgba(136,146,164,0.6);
+    margin-top: 0.5rem;
+    line-height: 1.6;
+  }
+
+  /* ===== FOOTER / CONTACT ===== */
+  footer {
+    background: var(--coal);
+    padding: 5rem 3rem 2.5rem;
+    position: relative;
+  }
+  footer::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  }
+
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-section h3 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .footer-section h3::before {
+    content: "";
+    width: 3px; height: 16px;
+    background: var(--ember);
+    border-radius: 2px;
+  }
+
+  .contact-row {
+    display: flex; gap: 1rem; align-items: baseline;
+    margin-bottom: 1rem;
+    font-size: 0.88rem;
+  }
+  .contact-label {
+    color: var(--smoke);
+    white-space: nowrap;
+    min-width: 130px;
+    font-size: 0.78rem;
+    font-family: var(--font-display);
+    letter-spacing: 0.03em;
+  }
+  .contact-value {
+    color: var(--cloud);
+    word-break: break-all;
+    line-height: 1.6;
+  }
+  .contact-value a {
+    color: var(--sky);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+  .contact-value a:hover { color: var(--ember-glow); }
+
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 2rem;
+    font-size: 0.72rem;
+    color: var(--smoke);
+    opacity: 0.6;
+    font-family: var(--font-display);
+    letter-spacing: 0.03em;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: absolute; top: 72px; left: 0; right: 0;
+      background: rgba(12, 15, 20, 0.98);
+      backdrop-filter: blur(20px);
+      padding: 1.5rem 2rem;
+      gap: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-links.open a {
+      display: block;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+    }
+    .nav-toggle { display: flex; align-items: center; justify-content: center; }
+
+    .hero-content { padding: 3rem 1.5rem; }
+    .hero h1 { font-size: 2rem; }
+
+    section { padding: 4rem 1.5rem; }
+    .section-title { font-size: 1.8rem; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .products-grid { grid-template-columns: 1fr; }
+    .adv-grid { grid-template-columns: 1fr; }
+
+    .footer-top { grid-template-columns: 1fr; gap: 2.5rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .contact-row { flex-direction: column; gap: 0.3rem; }
+    .contact-label { min-width: unset; }
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 1.6rem; }
+    .hero .subtitle { font-size: 1rem; }
+    .about-stats { grid-template-columns: 1fr; }
+    .stat-number { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-brand">
+    <img src="logo.png" alt="鸿识科技">
+    <div class="nav-brand-text">
+      <span class="zh">鸿识科技</span>
+      <span class="en">Hongshi Technology</span>
+    </div>
+  </a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#advantages">Advantages</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-geo hero-geo-1"></div>
+  <div class="hero-geo hero-geo-2"></div>
+  <div class="hero-geo hero-geo-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">SMART CONSTRUCTION IoT</div>
+    <h1>致力于成为国内领先的<br><span class="highlight">智慧工地</span>软硬件一体化服务商</h1>
+    <p class="subtitle">深耕物联网技术，用数字驱动建筑劳务高效管理</p>
+    <p class="subtitle-en">Committed to being a leading provider of integrated software and hardware solutions for smart construction.</p>
+    <div class="hero-line"></div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Company Profile</div>
+      <h2 class="section-title">关于我们</h2>
+      <p class="section-title-en">About Us</p>
+    </div>
+    <div class="about-grid">
+      <div class="reveal reveal-delay-1">
+        <p class="about-text">
+          厦门鸿识科技有限公司（Xiamen Hongshi Technology Co., LTD）成立于 2018 年，总部位于中国厦门。我们是一家专注于物联网（IoT）技术与泛建筑行业数字化转型的创新型科技企业。
+        </p>
+        <p class="about-text">
+          依托多年的行业深耕，鸿识科技为工程项目提供涵盖"移动端 App、专有智能硬件（PDA）、云端 SaaS 平台"在内的软硬件一体化解决方案，助力企业实现劳务实名制合规、现场安全管控与考勤精准追踪。
+        </p>
+        <p class="about-text-en">
+          Founded in 2018 and headquartered in Xiamen, China, Xiamen Hongshi Technology Co., LTD is an innovative tech enterprise focusing on Internet of Things (IoT) technology and the digital transformation of the construction industry. We provide comprehensive integrated solutions—including mobile applications (iOS/Android), specialized smart hardware (PDA), and cloud-based SaaS platforms—to help enterprises achieve compliance in real-name labor management and precise attendance tracking.
+        </p>
+      </div>
+      <div class="about-stats reveal reveal-delay-2">
+        <div class="stat-card">
+          <div class="stat-number">2018</div>
+          <div class="stat-label">公司成立</div>
+          <div class="stat-label-en">Founded</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">IoT</div>
+          <div class="stat-label">核心技术</div>
+          <div class="stat-label-en">Core Technology</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">3+</div>
+          <div class="stat-label">产品矩阵</div>
+          <div class="stat-label-en">Product Lines</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">SaaS</div>
+          <div class="stat-label">云端平台</div>
+          <div class="stat-label-en">Cloud Platform</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">What We Build</div>
+      <h2 class="section-title">核心产品</h2>
+      <p class="section-title-en">Core Products</p>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-icon-wrap icon-app-wrap">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+            <line x1="12" y1="18" x2="12" y2="18.01"/>
+          </svg>
+        </div>
+        <h3>慧筑数智管理平台 — 移动端 App</h3>
+        <p class="product-name-en">Huizhu Smart Management Platform — Mobile App (iOS &amp; Android)</p>
+        <p>
+          为项目管理者与现场工人量身定制的移动工作台。支持基于高精度地图的"电子围栏自动打卡"，提供实时位置流转、排班审批与数字档案管理，彻底告别传统考勤作弊。
+        </p>
+        <p class="desc-en">
+          A mobile workspace tailored for project managers and field workers. Features GPS-based geofencing for automatic attendance check-in, real-time location tracking, shift approval workflows, and digital records management.
+        </p>
+      </div>
+
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-icon-wrap icon-pda-wrap">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3>智能巡检终端 — PDA 软硬一体</h3>
+        <p class="product-name-en">Smart Inspection Terminal — Integrated PDA Hardware &amp; Software</p>
+        <p>
+          深度集成本地人脸识别算法与二代证读取芯片，支持"弱网离线核验"与"人证合一抓拍"，秒级完成现场劳务人员的实名放行。
+        </p>
+        <p class="desc-en">
+          Deeply integrated with on-device facial recognition and national ID card reading, supporting offline verification under weak network conditions and real-time identity-photo matching for instant on-site identity verification.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section id="advantages">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Why Choose Us</div>
+      <h2 class="section-title">核心优势</h2>
+      <p class="section-title-en">Core Advantages</p>
+    </div>
+    <div class="adv-grid">
+
+      <div class="adv-card reveal reveal-delay-1">
+        <div class="adv-icon-wrap adv-icon-1">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m11-7h-6m-6 0H1m18.07-6.07l-4.24 4.24M9.17 14.83L4.93 19.07m14.14 0l-4.24-4.24M9.17 9.17L4.93 4.93"/></svg>
+        </div>
+        <h4>软硬件极致融合</h4>
+        <p>从云端的大数据高并发处理，到掌上终端的极速感应，打通数据采集的最后一公里。</p>
+        <p class="adv-en">Seamless integration from cloud-based big data processing to instant response on handheld devices.</p>
+      </div>
+
+      <div class="adv-card reveal reveal-delay-2">
+        <div class="adv-icon-wrap adv-icon-2">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <h4>合规与安全双重保障</h4>
+        <p>全链路数据加密，完美贴合国家住建部实名制监管要求，规避劳务薪资纠纷。</p>
+        <p class="adv-en">End-to-end data encryption, fully compliant with national real-name labor regulations.</p>
+      </div>
+
+      <div class="adv-card reveal reveal-delay-3">
+        <div class="adv-icon-wrap adv-icon-3">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff6b2c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1.05 12a10.96 10.96 0 018.32-10.61M22.95 12a10.96 10.96 0 01-8.32 10.61M12 1.05A10.96 10.96 0 011.39 9.37M12 22.95a10.96 10.96 0 0010.61-8.32"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <h4>物联网深度赋能</h4>
+        <p>IoT 设备实时在线，边缘计算保障弱网场景稳定运行，现场数据零延迟上云。</p>
+        <p class="adv-en">Real-time IoT connectivity with edge computing for stable operation even in low-signal environments.</p>
+      </div>
+
+      <div class="adv-card reveal reveal-delay-4">
+        <div class="adv-icon-wrap adv-icon-4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-6 8 6v10M9 20v-6h6v6"/></svg>
+        </div>
+        <h4>行业经验丰富</h4>
+        <p>深耕建筑劳务领域多年，深刻理解工地场景需求，方案落地快、见效快。</p>
+        <p class="adv-en">Years of expertise in construction labor management, delivering rapid and effective solutions.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="section-header reveal" style="margin-bottom: 3rem;">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">联系我们</h2>
+      <p class="section-title-en">Contact Us</p>
+    </div>
+    <div class="footer-top reveal reveal-delay-1">
+      <div class="footer-section">
+        <h3>公司信息 / Company Information</h3>
+        <div class="contact-row">
+          <span class="contact-label">Company</span>
+          <span class="contact-value">厦门鸿识科技有限公司<br>Xiamen Hongshi Technology Co., LTD</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">USCC</span>
+          <span class="contact-value">91350200MA322HXX1H</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Address</span>
+          <span class="contact-value">
+            厦门市翔安区凤翔街道宋洋一里28号510-07室<br>
+            <span style="font-family:var(--font-display); font-size:0.82rem; color:var(--smoke);">Room 510-07, No. 28, Songyang 1st Lane, Fengxiang Sub-district, Xiang'an District, Xiamen City</span>
+          </span>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>联系方式 / Contact</h3>
+        <div class="contact-row">
+          <span class="contact-label">Email</span>
+          <span class="contact-value"><a href="mailto:xiang@cnxmhs.com">xiang@cnxmhs.com</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Website</span>
+          <span class="contact-value"><a href="https://cnxmhs.com">cnxmhs.com</a></span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2018 – 2026 厦门鸿识科技有限公司 Xiamen Hongshi Technology Co., LTD</span>
+      <span>All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  var nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', function() {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.remove('open');
+    });
+  });
+
+  // Scroll reveal with IntersectionObserver
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
